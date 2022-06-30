@@ -1,0 +1,93 @@
+
+{
+  "timeCodes":[
+    {
+      "id": "002",
+      "imgURL": "",
+      "title": "Batman 2022",
+      "currentEpisode": 1,
+      "maxEpisodes": 1,
+      "updateDate": "21-04-2022",
+      "timeCode": [0, 41, 10],
+      "sectionID": 0,
+"categoryIDs": [0,2]
+    },
+    {
+      "id": "032",
+      "imgURL": "https://m.media-amazon.com/images/M/MV5BODZlYjQ4NzYtZTg1MC00NGY4LTg4NjQtNGE3ZjRkMjk3YjMyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1029_.jpg",
+      "title": "Docktor 44",
+      "currentEpisode": 1,
+      "maxEpisodes": 1,
+      "updateDate": "21-04-2022",
+      "timeCode": "[0, 21, 10]",
+      "sectionID": 0,
+      "categoryIDs": [0,2]
+    }
+  ],
+
+  "bookmark":[
+    {
+      "id": "002",
+      "imgURL": "",
+      "title": "Batman 2022",
+      "currentEpisode": 1,
+      "maxEpisodes": 1,
+      "updateDate": "21-04-2022",
+      "timeCode": [0, 41, 10],
+      "sectionID": 0,
+"categoryIDs": [0,2]
+    },
+    {
+      "id": "032",
+      "imgURL": "https://m.media-amazon.com/images/M/MV5BODZlYjQ4NzYtZTg1MC00NGY4LTg4NjQtNGE3ZjRkMjk3YjMyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1029_.jpg",
+      "title": "Docktor 44",
+      "currentEpisode": 1,
+      "maxEpisodes": 1,
+      "updateDate": "21-04-2022",
+      "timeCode": "[0, 21, 10]",
+      "sectionID": 0,
+      "categoryIDs": [0,2]
+    }
+  ],
+
+  
+  "viewed":[
+    {
+      "id": "002",
+      "imgURL": "",
+      "title": "Batman 2022",
+      "currentEpisode": 1,
+      "maxEpisodes": 1,
+      "updateDate": "21-04-2022",
+      "timeCode": [0, 41, 10],
+      "sectionID": 0,
+"categoryIDs": [0,2]
+    },
+    {
+      "id": "032",
+      "imgURL": "https://m.media-amazon.com/images/M/MV5BODZlYjQ4NzYtZTg1MC00NGY4LTg4NjQtNGE3ZjRkMjk3YjMyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1029_.jpg",
+      "title": "Docktor 44",
+      "currentEpisode": 1,
+      "maxEpisodes": 1,
+      "updateDate": "21-04-2022",
+      "timeCode": "[0, 21, 10]",
+      "sectionID": 0,
+      "categoryIDs": [0,2]
+    }
+  ],
+
+  "sections":[
+    {
+      "id": "0",
+      "Name": "Films",
+      "CategoriesID": [0,2]
+    }
+    
+  ],
+  "categories":[
+    {
+      "id": "0",
+      "Name": "Psixo"
+    }
+  ]
+}

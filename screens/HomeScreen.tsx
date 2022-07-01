@@ -4,7 +4,6 @@ import axios from 'axios';
 import { Text, View } from '../components/Themed';
 
 import SectionGroup from "../components/filmComp/SectionGroup";
-import BigVideoGroup from "../components/filmComp/BigVideoCard";
 import BannerSection from '../components/filmComp/BannerSection';
 
 import { RootTabScreenProps } from '../types';

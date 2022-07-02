@@ -1,6 +1,7 @@
-import { StyleSheet, Image, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, Image, ScrollView, TextInput, Pressable } from 'react-native';
 
 import {useEffect, useState} from 'react'
+import { useNavigation } from '@react-navigation/native';
 
 import axios from 'axios';
 import { Text, View } from '../../components/Themed';
@@ -13,14 +14,20 @@ import MiniVideoCard from "../../components/filmComp/miniVideoCard";
 //import SearchIcon from '../../assets/icons/SearchIcon'
 
 
-export default function HomeScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function SelectSectionPage({ navigation }) {
   const [text, onChangeText] = useState("Useless Text");
+const Navigation=useNavigation()
+
+const goToAddVideoScreen=()=>{
+  console.log("PRRRROo")
+  Navigation.navigate('AddVideoScreen')
+}
 
   return (
    
     <View style={styles.container}>
         <Text style={styles.title}>
-         Pizda
+          Add Video
         </Text>
         <View style={styles.searchContainer}>
           {/* <SearchIcon style={styles.searchIcon} width={28} height={28}/> */}
@@ -32,9 +39,12 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'TabOne'>)
         </View>
        <ScrollView>
 {/* <MiniVideoCard/> */}
+<Pressable onPress={goToAddVideoScreen} style={{marginTop:30, alignItems: 'center'}}>
 <Text style={styles.title}>
-      Press to Add Videos!
+      Press to AVideos!
         </Text>
+</Pressable>
+
       </ScrollView>
      
     </View>

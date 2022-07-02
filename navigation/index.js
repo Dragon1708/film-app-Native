@@ -18,6 +18,8 @@ import TabOneScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/AddVideo/AddVideoPage1';
 
 import AddVideoScreen from '../screens/AddVideo/AddVideoPage2';
+import SelectCategoryPage from '../screens/AddVideo/SelectCategoryPage';
+import SelectSectionPage from '../screens/AddVideo/SelectSectionPage';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -44,6 +46,8 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
 
       <Stack.Screen name="AddVideoScreen" component={AddVideoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="SelectSectionPage" component={SelectSectionPage} options={{ title: 'Sections' }} />
+      <Stack.Screen name="SelectCategoryPage" component={SelectCategoryPage} options={{ title: 'Categories' }} />
 
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>

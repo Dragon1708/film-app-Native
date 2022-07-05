@@ -1,5 +1,5 @@
-import { StyleSheet, Image,ScrollView, Text, View, Pressable  } from 'react-native';
-
+import { StyleSheet, FlatList,ScrollView, Text, View, Pressable  } from 'react-native';
+import { useState} from 'react'
 //import LinearGradient from 'react-native-linear-gradient';
 import {LinearGradient} from 'expo-linear-gradient'
 
@@ -9,22 +9,46 @@ import CardVideo from './CardVideo';
 
 
 
-const SectionGroup=()=>{
+const SectionGroup=({title, VideoData, isTimeCode=false,  isBookmark=false, isViewed=false})=>{
   //  const  {imgURL, title, currentEpisode, timeCode, maxEpisodes}=data
-    
+ // const [data, setData]= useState(VideoData )
   const onSeeAll=()=>{
+ //   setData(VideoData)
+    console.log(VideoData[0])
 console.log('onSeeAll')
   };
 
         return (
             <View style={styles.sectionWrapper}>
          <View style={styles.titleSection}>
-         <Text style={styles.text}>Films</Text>
+         <Text style={styles.text}>{title}</Text>
          <Pressable onPress={onSeeAll} style={styles.seeAll}>
          <Text style={styles.text}>See all</Text>
          </Pressable>
      </View>
-     <ScrollView  horizontal={true}>
+     {/* <FlatList
+data={VideoData}
+renderItem={({item})=>{
+  {console.log(item)}
+<Text >
+23243
+</Text>
+
+}}
+/> */}
+<ScrollView  horizontal={true}>
+{VideoData.map((element, i) => {
+  //   console.log("====")
+  // console.log(element)
+    return (
+      <CardVideo 
+      data={element }
+      isTimeCode={true}
+    />
+    )
+  })}
+</ScrollView>
+     {/* <ScrollView  horizontal={true}>
 
      <CardVideo 
       data={{
@@ -59,7 +83,7 @@ console.log('onSeeAll')
       }
       isTimeCode={true}
     />
-     </ScrollView>
+     </ScrollView> */}
     
           </View>
           
@@ -72,6 +96,8 @@ console.log('onSeeAll')
 
         },
         titleSection: {
+          paddingLeft:10,
+    paddingRight:10,
           flexDirection: "row",
         justifyContent:"space-between",
         marginBottom:10

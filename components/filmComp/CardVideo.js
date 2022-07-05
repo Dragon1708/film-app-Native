@@ -1,4 +1,7 @@
 import { StyleSheet, Image, Text, View, Pressable  } from 'react-native';
+import {useEffect, useState} from 'react'
+import { useNavigation } from '@react-navigation/native';
+
 import styled from 'styled-components/native'
 //import LinearGradient from 'react-native-linear-gradient';
 import {LinearGradient} from 'expo-linear-gradient'
@@ -11,45 +14,54 @@ import AddBookmark from '../../assets/icons/NoneBookMark'
 
 const cardVideo=({data, isTimeCode=false, isBookmark=false, isViewed=false})=>{
 const  {imgURL, title, currentEpisode, timeCode, maxEpisodes}=data
+//const [videoData, setVideoData]= useState( data)
+const Navigation=useNavigation()
 
+useEffect(() => {
+ // videoData.imgURL= videoData.imgURL!=='' ? videoData.imgURL : 'https://images.genius.com/af1e9db30786db68b4a8698a9536a4a8.999x999x1.jpg'
+
+},[])
 
 const onBookmark=()=>{
 
 }
 
 const onClickCard=()=>{
-console.log("PRESS!")
+  console.log("===================")
+  Navigation.navigate('VideoDataScreen', {data})
 }
 
     return (
         <Pressable onPress={onClickCard} style={styles.container}>
   {isTimeCode?  <View>
         <Image 
-         source={{uri: 'https://upload.wikimedia.org/wikipedia/ru/thumb/b/b2/The_Batman_Poster.jpg/800px-The_Batman_Poster.jpg'
+         source={{uri: imgURL!=='' ? imgURL : 'https://images.genius.com/af1e9db30786db68b4a8698a9536a4a8.999x999x1.jpg'
          }} style={styles.image} />
 
 <LinearGradient colors={[ '#FD7461', '#BA4274']} start={[0,1]}
 end={[1,0]} style={styles.StickedBlock}>
  <View style={styles.TimeCode} >
           <Clock style={{marginRight:2}} width={24} height={24}/>
-          <Text style={styles.text}>1:</Text>
-          <Text style={styles.text}>12:</Text>
-          <Text style={styles.text}>20</Text>
+          { timeCode[0]!==0? <Text style={styles.text}>{timeCode[0]+':'}</Text> : null}
+          {timeCode[2]!==0?   <Text style={styles.text}>{timeCode[1]+':'}</Text>: 
+          <Text style={styles.text}>{timeCode[1]}</Text> }
+        { timeCode[2]!==0?  <Text style={styles.text}>{timeCode[2]}</Text> : null }
 </View>
 </LinearGradient>
-
+{maxEpisodes!==1 ? 
 <LinearGradient colors={[ '#FD7461', '#BA4274']} start={[0,1]}
 end={[1,0]} style={styles.EpisodeBlock}>
    <LinearGradient colors={[ '#FD7461', '#BA4274']} start={[0,1]}
 end={[1,0]} style={styles.TimeCode} >
-          <Text style={styles.text}>8</Text>
+      <Text style={styles.text}>{currentEpisode}</Text>  
           </LinearGradient>
 </LinearGradient>
+: null}
 </View> : null}
 
 {isBookmark?  <View>
-        <Image 
-         source={{uri: 'https://upload.wikimedia.org/wikipedia/ru/thumb/b/b2/The_Batman_Poster.jpg/800px-The_Batman_Poster.jpg'
+  <Image 
+         source={{uri:  imgURL!=='' ? imgURL : 'https://images.genius.com/af1e9db30786db68b4a8698a9536a4a8.999x999x1.jpg'
          }} style={styles.image} />
 <Pressable onPress={onBookmark} style={styles.Bookmark} >
 <Bookmark width={55} height={60}/>
@@ -57,8 +69,8 @@ end={[1,0]} style={styles.TimeCode} >
 </View> : null}
 
 {isViewed?  <View>
-        <Image 
-         source={{uri: 'https://upload.wikimedia.org/wikipedia/ru/thumb/b/b2/The_Batman_Poster.jpg/800px-The_Batman_Poster.jpg'
+  <Image 
+         source={{uri:  imgURL!=='' ? imgURL : 'https://images.genius.com/af1e9db30786db68b4a8698a9536a4a8.999x999x1.jpg'
          }} style={styles.image} />
 
 <LinearGradient colors={[ '#62D85F', '#42E83F']} start={[0,1]}
@@ -68,7 +80,7 @@ end={[1,0]} style={styles.StickedBlock}>
 </View>
 </LinearGradient>
 </View> : null}
-          <Text style={styles.title}>Bata44</Text>
+          <Text style={styles.title}>{title}</Text>
       </Pressable>
       
     )

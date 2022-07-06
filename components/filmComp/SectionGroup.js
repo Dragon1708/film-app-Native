@@ -42,6 +42,7 @@ renderItem={({item})=>{
   // console.log(element)
     return (
       <CardVideo 
+      key={i}
       data={element }
       isTimeCode={true}
     />

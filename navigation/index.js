@@ -23,6 +23,7 @@ import SelectSectionPage from '../screens/AddVideo/SelectSectionPage';
 
 import VideoDataScreen from '../screens/VideoDataScreen';
 import ChangeTime from '../screens/ChangeVideo/ChangeTime';
+import ChangeEpisode from '../screens/ChangeVideo/ChangeEpisode';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -54,6 +55,7 @@ function RootNavigator() {
 
       <Stack.Screen name="VideoDataScreen" component={VideoDataScreen} options={{  headerShown: false }} />
       <Stack.Screen name="ChangeTime" component={ChangeTime} options={{  headerShown: false }} />
+      <Stack.Screen name="ChangeEpisode" component={ChangeEpisode} options={{  headerShown: false }} />
 
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>

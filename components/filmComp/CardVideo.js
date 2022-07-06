@@ -13,7 +13,7 @@ import AddBookmark from '../../assets/icons/NoneBookMark'
 
 
 const cardVideo=({data, isTimeCode=false, isBookmark=false, isViewed=false})=>{
-const  {imgURL, title, currentEpisode, timeCode, maxEpisodes}=data
+const  {imgURL, title, EpisodeData, timeCode, SeasonData}=data
 //const [videoData, setVideoData]= useState( data)
 const Navigation=useNavigation()
 
@@ -48,12 +48,12 @@ end={[1,0]} style={styles.StickedBlock}>
         { timeCode[2]!==0?  <Text style={styles.text}>{timeCode[2]}</Text> : null }
 </View>
 </LinearGradient>
-{maxEpisodes!==1 ? 
+{SeasonData[1]!==1 ? 
 <LinearGradient colors={[ '#FD7461', '#BA4274']} start={[0,1]}
 end={[1,0]} style={styles.EpisodeBlock}>
    <LinearGradient colors={[ '#FD7461', '#BA4274']} start={[0,1]}
 end={[1,0]} style={styles.TimeCode} >
-      <Text style={styles.text}>{currentEpisode}</Text>  
+      <Text style={styles.text}>{'S'+SeasonData[0]+'|Ep'+EpisodeData[0]}</Text>  
           </LinearGradient>
 </LinearGradient>
 : null}

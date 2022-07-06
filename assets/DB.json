@@ -5,8 +5,8 @@
       "id": "002",
       "imgURL": "",
       "title": "Batman 2022",
-      "currentEpisode": 1,
-      "maxEpisodes": 10,
+      "EpisodeData": [1,1],
+      "SeasonData": [1,1],
       "updateDate": 1656860865734,
       "timeCode": [1, 11, 10],
       "sectionID": 0,
@@ -16,8 +16,8 @@
       "id": "032",
       "imgURL": "https://m.media-amazon.com/images/M/MV5BODZlYjQ4NzYtZTg1MC00NGY4LTg4NjQtNGE3ZjRkMjk3YjMyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1029_.jpg",
       "title": "Docktor 44",
-      "currentEpisode": 1,
-      "maxEpisodes": 1,
+      "EpisodeData": [3,40],
+      "SeasonData": [2,4],
       "updateDate": 1656860763829,
       "timeCode": [0, 41, 10],
       "sectionID": 1,
@@ -49,7 +49,12 @@
       "categoryIDs": [0,2]
     }
   ],
-
+"fakeApi":[
+  {
+    "id": "032",
+"Seasons":[8,11,9,12]
+  }
+],
   
   "viewed":[
     {

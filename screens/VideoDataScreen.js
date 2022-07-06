@@ -15,7 +15,7 @@ export default function VideoDataScreen() {
  //   consoleconst JsonAPI='https://nodal-linker-349809-default-rtdb.europe-west1.firebasedatabase.app/bookmark.json'
 const route=useRoute()
 const Navigation=useNavigation()
-const {id, imgURL, title, currentEpisode, timeCode, maxEpisodes}=route.params.data
+const {id, imgURL, title, SeasonData, timeCode, EpisodeData}=route.params.data
 const allData=route.params.data
 // console.log(id)
 const testSave=() => {
@@ -36,10 +36,10 @@ const UpdateTime=() => {
             {title}
          </Text>
              </View>
-             {maxEpisodes!==1 ?
+             {SeasonData[1]!==1 ?
    <View style={styles.epsContainer}>
    <Text style={styles.epsText}>
- Ep {currentEpisode}/{maxEpisodes}
+   {'S'+SeasonData[0]+'|Ep'+EpisodeData[0]}
 </Text>
    </View> : null}
           

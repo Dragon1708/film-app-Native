@@ -1,79 +1,62 @@
-import { StyleSheet, View, TextInput, Text, Pressable } from 'react-native';
+import { StyleSheet, View,FlatList, ScrollView, Text, Pressable } from 'react-native';
 import {useEffect, useState} from 'react'
 import { Dimensions } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import {fakeApi} from "../../assets/DB.json";
 
 import {LinearGradient} from 'expo-linear-gradient'
 
+import SeasonGroup from "../../components/ChangeVideo/SeasonGroup";
 
-export default function ChangeTime() {
+export default function ChangeEpisode() {
  //   consoleconst JsonAPI='https://nodal-linker-349809-default-rtdb.europe-west1.firebasedatabase.app/bookmark.json'
  const route=useRoute()
-const data=route.params.allData
-const Navigation=useNavigation()
+const Videodata=route.params
 
-const [hour, setHour] = useState('0');
-const [minute, setMinute] = useState();
-const [seconds, setSeconds] = useState('0');
+const getSeasons=() => {
+return  fakeApi.find((value, index)=>{
+//  console.log(Videodata.data.id)
+   return value.id==Videodata.data.id; 
+  })
+}
 
-const onChangeHour=(value) => {
-  setHour(value)
+useEffect(()=>{
+//console.log(getSeasons().Seasons,"--------")
+
+},[])
+//console.log(Videodata,'|||+++||')
+const [hour, setHour] = useState("0");
+
+
+const onChangeMin=() => {
+
 }
-const onChangeMin=(value) => {
-  setMinute(value)
-}
-const onChangeSec=(value) => {
-  setSeconds(value)
+const onChangeSec=() => {
+
   //console.log(DB)
   }
 const onContinue=() => {
-  const newTime=[parseInt(hour) , parseInt(minute), parseInt(seconds) ]
-  Navigation.navigate('ChangeEpisode', {data, newTime})
+
 }
 
   return (
    
     <View style={styles.container}>
-        <View style={styles.wrapper}>
+   
         <Text style={styles.title}>
-      Where did you stay?
+    Select Episode
       </Text>
-     <View style={styles.inputsContainer}>
-     <TextInput
-  style={styles.textInputTime}
-  onChangeText={onChangeHour}
-  value={hour}
-  keyboardType={'numeric'}
-  placeholder={data.timeCode[0].toString()}
-/>
-<Text style={styles.title}>
-      :
-      </Text>
-<TextInput
-  style={styles.textInputTime}
-  onChangeText={onChangeMin}
-  keyboardType={'numeric'}
-  value={minute}
-  placeholder={data.timeCode[1].toString()}
-/>
-<Text style={styles.title}>
-      :
-      </Text>
-<TextInput
-  style={styles.textInputTime}
-  onChangeText={onChangeSec}
-  keyboardType={'numeric'}
-  value={seconds}
-  placeholder={data.timeCode[2].toString()}
-/>
-     </View>
-     <Pressable onPress={onContinue} >
+      {/* <FlatList
+data={getSeasons().Seasons}
+renderItem={({item})=>   <SeasonGroup/>}
+/> */}
+<SeasonGroup episodeCount={10} seasonNum={1}/>
+    <Pressable onPress={onContinue} >
            <LinearGradient colors={[ '#FD7461', '#BA4274']} start={[0,1]}
 end={[1,0]} style={styles.btnNext}>
           <Text style={styles.title}>Next</Text>
 </LinearGradient>
            </Pressable>
-        </View>
   
     </View>
   );
@@ -81,6 +64,7 @@ end={[1,0]} style={styles.btnNext}>
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop:40,
     justifyContent: 'center',
   height:'100%',
     backgroundColor: '#1D1D27'
@@ -114,7 +98,7 @@ marginRight:30,
   },
   title: {
     fontWeight: 'bold',
-    textAlign: 'center',
+
           fontSize: 28,
           color: "#ffff",
         },

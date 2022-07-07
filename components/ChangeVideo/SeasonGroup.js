@@ -8,7 +8,7 @@ import {LinearGradient} from 'expo-linear-gradient'
 import EpisodeCard from "./EpisodeCard";
 
 
-export default function SeasonGroup({episodeCount,seasonNum}) {
+export default function SeasonGroup({episodeCount,seasonNum, SelectEpisode}) {
  //   consoleconst JsonAPI='https://nodal-linker-349809-default-rtdb.europe-west1.firebasedatabase.app/bookmark.json'
 
 
@@ -16,10 +16,15 @@ const [hour, setHour] = useState("0");
 const [minute, setMinute] = useState();
 const [seconds, setSeconds] = useState("0");
 
+
 const Episodes=() => {
   let episodesCard=[]
   for (let i = 0; i < episodeCount; i++) {
-    episodesCard.push(<EpisodeCard key={i} NumEpisode={i+1}/>)
+    episodesCard.push(
+ 
+ <EpisodeCard key={i} NumEpisode={i+1} Season={seasonNum} SelectEpisode={SelectEpisode}/>
+   
+    )
   }
   return episodesCard
 }
@@ -38,8 +43,13 @@ const onContinue=() => {
      {'Season ' +seasonNum}
       </Text>
 
-      <ScrollView >
-{Episodes()}
+      <ScrollView   style={styles.episodesGrid}>
+      <View style={{flexDirection: 'row', flexWrap: 'wrap',
+      justifyContent: 'center',
+
+     }}>
+      {Episodes()}
+      </View>
 </ScrollView>
         </View>
   
@@ -53,32 +63,9 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#1D1D27'
   },
-  wrapper:{
-alignItems:'center',
-justifyContent: 'center',
-  },
-  inputsContainer:{
-    marginTop:15,
-    marginBottom:15,
-    alignItems: 'center',
-flexDirection: "row"
-  },
-  textInputTime:{
-    height: 60,
-    backgroundColor: 'rgba(118, 118, 128, 0.2)',
-    borderRadius:16,
-    textAlign: 'center',
-    placeholderTextColor:'rgba(255, 255, 255, 0.54)',
-    fontSize: 28,
-    width: 110,
-    color: 'white'
-  },
-  btnNext:{
-    padding:10,
-    borderRadius:10,
-width:Dimensions.get('window').width-60,
-marginLeft:30,
-marginRight:30,
+  episodesGrid:{
+  //  justifyContent: 'flex-start',
+
   },
   title: {
     fontWeight: 'bold',

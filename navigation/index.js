@@ -48,6 +48,7 @@ function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="HomeScreen" component={TabOneScreen} options={{ headerShown: false }} />
 
       <Stack.Screen name="AddVideoScreen" component={AddVideoScreen} options={{ headerShown: false }} />
       <Stack.Screen name="SelectSectionPage" component={SelectSectionPage} options={{ title: 'Sections' }} />

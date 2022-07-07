@@ -30,3 +30,17 @@ export const saveData = async (data) => {
       // Error retrieving data
     }
   };
+
+  export const mergeData = async (data) => {
+    try {
+  
+      await AsyncStorage.mergeItem(
+        'userData',
+        JSON.stringify(data)
+      );
+    } catch (error) {
+        console.log("Error Fuck=");
+      console.log(error);
+      // Error saving data
+    }
+  };

@@ -19,6 +19,7 @@ return data
 
   useEffect(() => {
     console.log( Date.now())
+    loadUserData()
  //   loadUserData()
     // axios.post(JsonAPI,     {
     //   id: "032",

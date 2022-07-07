@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import { Text, View } from '../components/Themed';
 
-
+import {saveData, loadData} from '../components/SaveLoadData'
 import {LinearGradient} from 'expo-linear-gradient'
 
 import Arrow from "../assets/icons/arrow";
@@ -18,8 +18,14 @@ const Navigation=useNavigation()
 const {id, imgURL, title, SeasonData, timeCode, EpisodeData}=route.params.data
 const allData=route.params.data
 // console.log(id)
-const testSave=() => {
-//console.log(DB)
+const onDelete=() => {
+  loadData().then(function (data) {
+    let NewData=data
+    NewData.timeCodes.splice(NewData.timeCodes.findIndex(item => item.id ===id), 1)
+  saveData(NewData)
+  // console.log( NewData.timeCodes)
+    Navigation.navigate('HomeScreen')
+    })
 }
 const UpdateTime=() => {
   Navigation.navigate('ChangeTime', {allData})
@@ -101,7 +107,7 @@ end={[1,0]} style={styles.btnUpdate}>
           <Text style={{  ...styles.timeTitle,  fontSize: 30,}}>Update</Text>
 </LinearGradient>
            </Pressable>
-           <Pressable onPress={testSave} >
+           <Pressable onPress={onDelete} >
            <LinearGradient colors={[ '#FD7461', '#BA4274']} start={[0,1]}
 end={[1,0]} style={styles.btnDelete}>
   <Arrow width={40} height={40}/>

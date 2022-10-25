@@ -1,34 +1,43 @@
 import { StyleSheet, Image, ScrollView, FlatList, Pressable } from 'react-native';
 import {useEffect, useState} from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
-
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux'
 import { Text, View } from '../components/Themed';
+import {LinearGradient} from 'expo-linear-gradient';
 
-import {saveData, loadData} from '../components/SaveLoadData'
-import {LinearGradient} from 'expo-linear-gradient'
+import {saveWatching,loadWatching  } from "../components/SaveLoadData";
 
-import Arrow from "../assets/icons/arrow";
+import ArrowLeft from "../assets/icons/png/arrow-leftPNG.png";
+import EditIcon from "../assets/icons/png/edit-05PNG.png";
+
+
 
 
 export default function VideoDataScreen() {
  //   consoleconst JsonAPI='https://nodal-linker-349809-default-rtdb.europe-west1.firebasedatabase.app/bookmark.json'
-const route=useRoute()
+// const route=useRoute()
 const Navigation=useNavigation()
-const {id, imgURL, title, SeasonData, timeCode, EpisodeData}=route.params.data
-const allData=route.params.data
+// const {id, imgURL, title, timeCode}=route.params.data
+const {id, imgURL, title, timeCode, currentEpisode}=useSelector(state=>state.VideosReducer.currentVideo)
+const videos =useSelector(state=>state.VideosReducer.watching)
+// const allData=route.params.data
 // console.log(id)
 const onDelete=() => {
-  loadData().then(function (data) {
-    let NewData=data
-    NewData.timeCodes.splice(NewData.timeCodes.findIndex(item => item.id ===id), 1)
-  saveData(NewData)
-  // console.log( NewData.timeCodes)
-    Navigation.navigate('HomeScreen')
-    })
-}
+  // loadData().then(function (data) {
+  //   let NewData=data
+  //   NewData.timeCodes.splice(NewData.timeCodes.findIndex(item => item.id ===id), 1)
+  // saveData(NewData)
+  loadWatching().then(function (data) {
+    console.log(data[1])
+  })
+
+    // Navigation.navigate('HomeScreen')
+    }
+
 const UpdateTime=() => {
-  Navigation.navigate('ChangeTime', {allData})
+  // Navigation.navigate('ChangeTime', {allData})
+  console.log("======++++")
+  // saveWatching(videos)
 }
 
   return (
@@ -37,23 +46,34 @@ const UpdateTime=() => {
     <Image 
          source={{uri: imgURL!=='' ? imgURL : 'https://images.genius.com/af1e9db30786db68b4a8698a9536a4a8.999x999x1.jpg'
          }} style={styles.image} />
+<LinearGradient colors={['rgba(10, 10, 17, 0)',
+'rgba(10, 10, 17, 0.8)',
+'rgba(10, 10, 17, 0.95)',
+ 'rgba(1, 8, 13, 1)']} 
+style={styles.BlackBackground} >
+
+</LinearGradient>
+         <View style={styles.toggleContainer}>
+         <Pressable onPress={onDelete} style={styles.btnGray}>
+         <Image source={ArrowLeft} />
+           </Pressable>
+           <Pressable onPress={UpdateTime}  style={styles.btnGray}>
+           <Image source={EditIcon} />
+     </Pressable>
+             </View>
+
              <View style={styles.titleContainer}>
              <Text style={styles.title}>
             {title}
          </Text>
              </View>
-             {SeasonData[1]!==1 ?
-   <View style={styles.epsContainer}>
-   <Text style={styles.epsText}>
-   {'S'+SeasonData[0]+'|Ep'+EpisodeData[0]}
-</Text>
-   </View> : null}
-          
-             <LinearGradient colors={[  'rgba(10, 10, 17, 1)','rgba(10, 10, 17, 0.6)', 'rgba(10, 10, 17, 0)']} start={[0,1]}
-end={[0,0.1]} style={styles.bottomBlack}>
-      
-          </LinearGradient>
-
+            
+             <View style={styles.epsContainer}>
+             <Text style={styles.title}>
+            {`S${currentEpisode[0]} | ${currentEpisode[1]}`}
+         </Text>
+             </View>
+           
              <View style={styles.timeContainer}>
 {timeCode[0]!==0 ?
              <View style={styles.hourContainer}>
@@ -100,18 +120,20 @@ end={[0,0.1]} style={styles.bottomBlack}>
          </Text>
              </View> : null}
            </View>
-           <View style={styles.toggleContainer}>
-           <Pressable onPress={UpdateTime} >
-           <LinearGradient colors={[ '#FD7461', '#BA4274']} start={[0,1]}
-end={[1,0]} style={styles.btnUpdate}>
-          <Text style={{  ...styles.timeTitle,  fontSize: 30,}}>Update</Text>
+           <View style={{
+  position: 'absolute',
+  backgroundColor: 0,
+  bottom: 0,
+  width: '100%',
+}}>
+           <Pressable onPress={UpdateTime} style={styles.btnUpdate}>
+           <LinearGradient colors={['#FF2C7D', '#FF59AA']}
+           start={{x: 0, y: 0}} end={{x: 1, y: 0}}
+           style={styles.btnUpdate}  >
+    <Text style={{...styles.title,  fontSize: 30}}>Update</Text>
 </LinearGradient>
-           </Pressable>
-           <Pressable onPress={onDelete} >
-           <LinearGradient colors={[ '#FD7461', '#BA4274']} start={[0,1]}
-end={[1,0]} style={styles.btnDelete}>
-  <Arrow width={40} height={40}/>
-</LinearGradient>
+          {/* <Text style={{  ...styles.timeTitle,  fontSize: 30,}}>Update</Text> */}
+      
            </Pressable>
            </View>
           
@@ -170,8 +192,9 @@ textAlign: 'center',
           color: "#ffff",
         },
 ////////////
-bottomBlack:{
+BlackBackground:{
   position: 'absolute',
+  
   bottom: 0,
   height: 400,
   width:'100%',
@@ -186,7 +209,7 @@ bottomBlack:{
         //  top: 50,
     left: '12%',
     right: 0,
-    bottom: 180,
+    bottom: 160,
 backgroundColor: 0,
           alignItems: "center",
          // justifyContent: "center",
@@ -211,24 +234,28 @@ backgroundColor: 0,
   toggleContainer:{
     backgroundColor: 0,
     position: 'absolute',
-    bottom: 50,
+    top: 40,
     left: 0,
     right: 0,
     alignItems: "center",
-    paddingLeft:20,
+    paddingLeft:10,
     paddingRight:10,
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
   btnUpdate:{
     borderRadius:28,
-    padding:25,
-    left: 90,
+    paddingLeft:60,
+    paddingRight:60,
+    paddingTop:20,
+    paddingBottom:20,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  btnDelete:{
-    borderRadius:28,
-    padding:25,
-
+  btnGray:{
+    borderRadius:16,
+    padding:10,
+    backgroundColor: '#1D1D27'
   },
 
 });

@@ -1,20 +1,18 @@
 import { StyleSheet, FlatList,ScrollView, Text, View, Pressable  } from 'react-native';
 import { useState} from 'react'
 //import LinearGradient from 'react-native-linear-gradient';
-import {LinearGradient} from 'expo-linear-gradient'
-
-
-import CardVideo from './CardVideo';
 
 
 
+import CardVideo from './VideoCard/CardVideo';
 
-const SectionGroup=({title, VideoData, isTimeCode=false,  isBookmark=false, isViewed=false})=>{
+
+const SectionGroup=({title, videos,  isTimeCode=false,  isBookmark=false, isViewed=false})=>{
   //  const  {imgURL, title, currentEpisode, timeCode, maxEpisodes}=data
  // const [data, setData]= useState(VideoData )
   const onSeeAll=()=>{
  //   setData(VideoData)
-    console.log(VideoData[0])
+ 
 console.log('onSeeAll')
   };
 
@@ -36,7 +34,7 @@ renderItem={({item})=>{
 
 }}
 /> */}
-<ScrollView  horizontal={true}>
+{/* <ScrollView  horizontal={true}>
 {VideoData.map((element, i) => {
   //   console.log("====")
   // console.log(element)
@@ -48,10 +46,21 @@ renderItem={({item})=>{
     />
     )
   })}
-</ScrollView>
-     {/* <ScrollView  horizontal={true}>
+</ScrollView> */}
+     <ScrollView  horizontal={true}>
+{
+  videos.map((el)=>{
+return  <CardVideo 
+key={el.id} 
+data={el}  
+isTimeCode={isTimeCode}
+isBookmark={isBookmark} 
+isViewed={isViewed}
+/> 
+    })
+    }
 
-     <CardVideo 
+     {/* <CardVideo 
       data={{
         imgURL:'https://upload.wikimedia.org/wikipedia/ru/thumb/b/b2/The_Batman_Poster.jpg/800px-The_Batman_Poster.jpg',
         title:'Batman 2022',
@@ -61,30 +70,9 @@ renderItem={({item})=>{
       }
       }
       isTimeCode={true}
-    />
-     <CardVideo 
-      data={{
-        imgURL:'https://upload.wikimedia.org/wikipedia/ru/thumb/b/b2/The_Batman_Poster.jpg/800px-The_Batman_Poster.jpg',
-        title:'Batman 2022',
-        currentEpisode:7,
-        timeCode: [0,11,20],
-        maxEpisodes:12
-      }
-      }
-      isTimeCode={true}
-    />
-    <CardVideo 
-      data={{
-        imgURL:'https://upload.wikimedia.org/wikipedia/ru/thumb/b/b2/The_Batman_Poster.jpg/800px-The_Batman_Poster.jpg',
-        title:'Batman 2022',
-        currentEpisode:7,
-        timeCode: [0,11,20],
-        maxEpisodes:12
-      }
-      }
-      isTimeCode={true}
-    />
-     </ScrollView> */}
+    /> */}
+     
+     </ScrollView>
     
           </View>
           

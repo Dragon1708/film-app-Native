@@ -1,17 +1,15 @@
 import { StyleSheet, Image,ScrollView, Text, View, Pressable  } from 'react-native';
 
 //import LinearGradient from 'react-native-linear-gradient';
-import {LinearGradient} from 'expo-linear-gradient'
 
 
-import BigCardVideo from './BigVideoCard';
 
+import HeaderCard from './HeaderCard';
 
-import CardVideo from './CardVideo';
 
 const BannerSection=()=>{
   //  const  {imgURL, title, currentEpisode, timeCode, maxEpisodes}=data
-    
+
   const onSeeAll=()=>{
 console.log('onSeeAll')
   };
@@ -19,7 +17,7 @@ console.log('onSeeAll')
         return (
       <ScrollView  horizontal={true}>
  
-      <BigCardVideo 
+      <HeaderCard 
        data={{
          imgURL:'https://upload.wikimedia.org/wikipedia/ru/thumb/b/b2/The_Batman_Poster.jpg/800px-The_Batman_Poster.jpg',
          title:'Batman 2022',
@@ -30,7 +28,7 @@ console.log('onSeeAll')
        }
        margin={30}
      />
-      <BigCardVideo
+      <HeaderCard
        data={{
          imgURL:'https://upload.wikimedia.org/wikipedia/ru/thumb/b/b2/The_Batman_Poster.jpg/800px-The_Batman_Poster.jpg',
          title:'Batman 2022',
@@ -41,7 +39,7 @@ console.log('onSeeAll')
        }
        margin={30}
      />
-     <BigCardVideo 
+     <HeaderCard 
        data={{
          imgURL:'https://upload.wikimedia.org/wikipedia/ru/thumb/b/b2/The_Batman_Poster.jpg/800px-The_Batman_Poster.jpg',
          title:'Batman 2022',
@@ -50,7 +48,7 @@ console.log('onSeeAll')
          maxEpisodes:12
        }
        }
-
+       margin={30}
      />
       </ScrollView>
 

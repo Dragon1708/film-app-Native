@@ -1,112 +1,98 @@
-import { StyleSheet, Image, ScrollView, FlatList, Pressable } from 'react-native';
-import {useEffect, useState} from 'react'
-import axios from 'axios';
-import { Text, View } from '../components/Themed';
-import {saveData, loadData} from '../components/SaveLoadData'
+import { StyleSheet, Image, ScrollView, FlatList, Pressable } from "react-native";
+import React from 'react';
 
+import EditScreenInfo from "../components/EditScreenInfo";
+import { Text, View } from "../components/Themed";
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios';
+
+
+import { SetViewed, SetBookmark, SetWatching } from '../redux/slices/VideosSlice'
+import { SetCategories} from '../redux/slices/Categories'
 import SectionGroup from "../components/filmComp/SectionGroup";
 import BannerSection from '../components/filmComp/BannerSection';
 
-import { RootTabScreenProps } from '../types';
-import DB from "../assets/DB.json";
+export default function TabOneScreen() {
+
+//  const [sections, SetSections]=React.useState(useSelector(state=>state.CategoriesReducer))
+// const [videos, SetVideos]=React.useState(useSelector(state=>state.VideosReducer.watching))
+
+const videos =useSelector(state=>state.VideosReducer.watching)
+const sections =useSelector(state=>state.CategoriesReducer)
 
 
-export default function HomeScreen({ navigation }) {
- //   consoleconst JsonAPI='https://nodal-linker-349809-default-rtdb.europe-west1.firebasedatabase.app/bookmark.json'
-const [data, setData]= useState( loadData().then(function (data) {
-return data
-}))
+  const dispatch=useDispatch()
+const api='https://62fa78e23c4f110faa9a0471.mockapi.io/'
 
-  useEffect(() => {
-    console.log( Date.now())
-    loadUserData()
- //   loadUserData()
-    // axios.post(JsonAPI,     {
-    //   id: "032",
-    //   imgURL: "https://m.media-amazon.com/images/M/MV5BODZlYjQ4NzYtZTg1MC00NGY4LTg4NjQtNGE3ZjRkMjk3YjMyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1029_.jpg",
-    //   title: "Docktor 44",
-    //   currentEpisode: 1,
-    //   maxEpisodes: 1,
-    //   updateDate: Date.now(),
-    //   timeCode: [0, 21, 10],
-    //   sectionID: 0,
-    //   categoryIDs: [0,2]
-    // })
-    // .then(function (response) {
-    //   console.log(response);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
+ React.useEffect(() => {
+  console.log( "e===============")
 
+  axios.get(api+'watch').then(res=>{
 
-    // axios.get(JsonAPI)
-    // .then(({data}) => {
-    //   console.log(data[0]["timeCode"][2]);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // })
-  },[])
+// dispatch(SetWatching(res.data[0].watch))
+dispatch(SetWatching(res.data))
 
-const testSave=() => {
-  saveData(DB)
-//console.log(DB)
 }
+)
+axios.get(api+'bookmark').then(res=>{
+  dispatch(SetBookmark(res.data))
+  }
+  )
+  axios.get(api+'viewed').then(res=>{
+    dispatch(SetViewed(res.data))
+    }
+    )
+axios.get(api+'categories').then(res=>{
 
-const loadUserData= () => {
-  loadData().then(function (data) {
-    setData(data)
-// data.sections[0]
-console.log(data.timeCodes[0].id)
-    console.log()
-  })
-}
+  dispatch(SetCategories(res.data))
+  }
+  )
+  }, []);
+
+  // сделать чтобы в сектион груп грузилось только макс 5видео
+
 
   return (
-   
     <View style={styles.container}>
-       <ScrollView>
-        <Text style={styles.title}>
-          Recent
-        </Text>
-       <BannerSection />
-<FlatList
-data={data.sections}
+        <ScrollView>
+        <Text style={styles.title}>  Recent</Text>
+        <BannerSection />
+      <View
+        style={styles.separator}
+        lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"
+      />
+      {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
+    
+
+        <FlatList
+data={sections}
 renderItem={({item})=> <SectionGroup 
-title={item.Name} 
-VideoData={data.timeCodes.filter(el=> el.sectionID ==item.id)} 
-isTimeCode={true}
+title={item.title} 
+isTimeCode
+// VideoData={data.timeCodes.filter(el=> el.sectionID ==item.id)} 
+videos={videos.filter(index=>index.categoriesID.includes(item.id) )}
+
 />}
 />
-        <Pressable onPress={testSave} style={{marginTop:20}}>
-     <Text style={styles.title}>
-          Save!
-        </Text>
-     </Pressable>
-     <Pressable onPress={loadUserData} style={{marginTop:20}}>
-     <Text style={styles.title}>
-         Load!
-        </Text>
-     </Pressable>
-      </ScrollView>
+</ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-  //  paddingLeft:10,
-  //  paddingRight:10,
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    backgroundColor: '#1D1D27'
-  },
-  title: {
-    fontWeight: 'bold',
-          fontSize: 28,
-          color: "#ffff",
-          marginBottom:16
-        },
+    //  paddingLeft:10,
+    //  paddingRight:10,
+      // flex: 1,
+      // alignItems: 'center',
+      // justifyContent: 'center',
+      backgroundColor: '#1D1D27'
+    },
+    title: {
+      fontWeight: 'bold',
+            fontSize: 28,
+            color: "#ffff",
+            marginBottom:16
+          },
 });

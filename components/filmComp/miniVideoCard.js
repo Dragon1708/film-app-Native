@@ -3,7 +3,6 @@ import { StyleSheet, Image, Text, View, Pressable,Dimensions  } from 'react-nati
 //import LinearGradient from 'react-native-linear-gradient';
 import {LinearGradient} from 'expo-linear-gradient'
 
-import Point from '../../assets/icons/point'
 
 
 const miniVideoCard=()=>{
@@ -22,10 +21,7 @@ const onClickCard=()=>{
     <Text style={styles.title}>Ananas 2nas 2nas 2048</Text>
     <View style={styles.dataContainer}>
     <Text style={styles.text}>2007</Text>
-    <Point style={{
-      marginRight:5,
-      marginLeft:5
-    }} width={4} height={4}/>
+
     <Text style={styles.text}>1h 56min</Text>
     </View>
   </View>

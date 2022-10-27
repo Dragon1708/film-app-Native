@@ -11,6 +11,7 @@ import Colors from "../constants/Colors";
 import HomeScreen from "../screens/HomeScreen";
 import Bookmark from "../screens/Bookmark";
 import Watched from "../screens/Watched";
+import AddVideoPage1 from "../screens/AddVideo/AddVideoPage1";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -42,7 +43,7 @@ export default function BottomTabNavigator() {
       />
         <BottomTab.Screen
         name="Create"
-        component={WatchedNavigator}
+        component={CreateVideoNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-code" color={color} />
@@ -95,6 +96,20 @@ function BookmarkNavigator() {
         options={{ headerTitle: "Tab Two Title" }}
       />
     </BookmarkStack.Navigator>
+  );
+}
+
+const CreateVideoStack = createStackNavigator();
+
+function CreateVideoNavigator() {
+  return (
+    <CreateVideoStack.Navigator>
+      <CreateVideoStack.Screen
+        name="CreateVideoStack"
+        component={AddVideoPage1}
+        options={{ headerTitle: "AddVideoPage1" }}
+      />
+    </CreateVideoStack.Navigator>
   );
 }
 

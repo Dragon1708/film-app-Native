@@ -10,7 +10,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
+
 import VideoDataScreen from "../screens/VideoDataScreen";
+import InitVideoDataScreen from "../screens/AddVideo/InitVideoDataScreen";
+import SelectCategoryPage from "../screens/AddVideo/SelectCategoryPage";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -32,6 +35,8 @@ function RootNavigator() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="VideoDataScreen" component={VideoDataScreen} />
+      <Stack.Screen name="InitVideoDataScreen" component={InitVideoDataScreen} />
+      <Stack.Screen name="SelectCategoryPage" component={SelectCategoryPage} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}

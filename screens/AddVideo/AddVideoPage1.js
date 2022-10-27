@@ -7,12 +7,6 @@ import axios from 'axios';
 import { Text, View } from '../../components/Themed';
 
 
-import { RootTabScreenProps } from '../../types';
-import DB from '../../assets/DB.json'
-
-import MiniVideoCard from "../../components/filmComp/miniVideoCard";
-//import SearchIcon from '../../assets/icons/SearchIcon'
-
 
 export default function HomeScreen({ navigation }) {
   const [text, onChangeText] = useState("Useless Text");
@@ -20,7 +14,7 @@ const Navigation=useNavigation()
 
 const goToAddVideoScreen=()=>{
   console.log("PRRRROo")
-  Navigation.navigate('AddVideoScreen')
+  Navigation.navigate('InitVideoDataScreen')
 }
 
   return (

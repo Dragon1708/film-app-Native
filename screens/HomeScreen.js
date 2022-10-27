@@ -18,7 +18,7 @@ export default function TabOneScreen() {
 // const [videos, SetVideos]=React.useState(useSelector(state=>state.VideosReducer.watching))
 
 const videos =useSelector(state=>state.VideosReducer.watching)
-const sections =useSelector(state=>state.CategoriesReducer)
+const sections =useSelector(state=>state.CategoriesReducer.categories)
 
 
   const dispatch=useDispatch()

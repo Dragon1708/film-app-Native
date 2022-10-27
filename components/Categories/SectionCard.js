@@ -3,7 +3,6 @@ import { StyleSheet, Image, Text, View, Pressable,Dimensions  } from 'react-nati
 //import LinearGradient from 'react-native-linear-gradient';
 import {LinearGradient} from 'expo-linear-gradient'
 
-import Point from '../../assets/icons/point'
 
 
 const SectionCard=()=>{

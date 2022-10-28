@@ -1,53 +1,101 @@
-import { StyleSheet, Image, ScrollView, TextInput,Pressable, AsyncStorage  } from 'react-native';
+import { StyleSheet,
+   Image,
+  ScrollView, 
+  TextInput,
+  Pressable,
+   TouchableOpacity,
+  Modal } from 'react-native';
 import {useEffect, useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux'
 //import RNFS from 'react-native-fs';
 
 import { Text, View } from '../../components/Themed';
-import CategorySlider from "../../components/Categories/CategorySlider";
 import ArrowPNG from "../../assets/icons/png/ArrowPNG.png";
 
 import {LinearGradient} from 'expo-linear-gradient'
-
-
+import {SetSelectedVideoCategories} from '../../redux/slices/Categories'
+import CategoryCard from "../../components/Categories/CategoryCard";
+import ListSelectItemPopup from "../../components/ListSelectItemPopup";
+import { AddVideoToWatching, AddVideoToBookmark, AddVideoToViewed} from '../../redux/slices/VideosSlice'
 //import SearchIcon from '../../assets/icons/SearchIcon'
 
 
 export default function InitVideoDataScreen({ navigation }) {
-  const [text, onChangeText] = useState("Useless Text");
-  const [posterURL, onChangePosterURL] = useState("");
-  // const SelectedSections  =useSelector(state=>state.selectedVideoCategories)
-  const sections =useSelector(state=>state.CategoriesReducer.selectedVideoCategories)
-  const Navigation=useNavigation()
 
+  // const SelectedSections  =useSelector(state=>state.selectedVideoCategories)
+  const SelectedSections =useSelector(state=>state.CategoriesReducer.selectedVideoCategories)
+  const StatusesWatching =useSelector(state=>state.VideosReducer.statuses)
+
+  const ZeroCategoryID =useSelector(state=>state.CategoriesReducer.categories)[0].id
+  const Navigation=useNavigation()
+  const dispatch=useDispatch()
+  const [Title, onChangeTitle] = useState("");
+  const [posterURL, onChangePosterURL] = useState("");
+  const [NumEpisodes, onChangeNumEpisodes] = useState("");
+  const   TogglePopup= useState(false )
+  const [SelectStatusWatching, SetSelectStatusWatching] = useState(StatusesWatching[0]);
   
 const onSelectCategories=()=>{
   Navigation.navigate('SelectCategoryPage')
 }
 
-const GoBack=()=>{
- // Navigation.goBack()
- _retrieveData()
+const PopupHandler=(SelectedItem)=>{
+  SetSelectStatusWatching(SelectedItem)
+}
+const OpenPopup=()=>{
+  TogglePopup[1](true)
 }
 
-const GoToSectionPage=()=>{
-  //Navigation.navigate('SelectSectionPage')
-  _storeData()
+const AddVideo=()=>{
+const NewVideo={
+imgURL:posterURL===''? 'https://images.genius.com/af1e9db30786db68b4a8698a9536a4a8.999x999x1.jpg':posterURL ,
+title:Title,
+currentEpisode:[1,1],
+timeCode:[0,0,0],
+categoriesID:[...SelectedSections.map((el)=>el.id), ZeroCategoryID],
+AllEpisodes:[[NumEpisodes? NumEpisodes: 1],
+NumEpisodes? NumEpisodes: 1],
+updatedTime:Date.now(),
+isUserCreated:true
+}
+console.log(SelectStatusWatching,'===',StatusesWatching[1])
+switch (SelectStatusWatching) {
+  case StatusesWatching[0]:
+    dispatch(AddVideoToWatching(NewVideo))
+    break;
+    case StatusesWatching[1]:
+      dispatch(AddVideoToBookmark(NewVideo))
+  
+      break;
+      case StatusesWatching[2]:
+        dispatch(AddVideoToViewed(NewVideo))
+        break;
+
+  default:
+    break;
+}
+dispatch(SetSelectedVideoCategories([]))
+Navigation.navigate('Home')
 
 }
-const onSubmit=(data)=>{
-  const {hour,min, sec }=data
-  dispatch(UpdateCurrentVideo({
-    timeCode:[
-      hour===''? 0 : parseInt(hour),
-      min===''? 0 : parseInt(min),
-      sec===''? 0 : parseInt(sec)
-    ]
-  }
-  ))
-handleIndexForm(1)
+const CancelAddVideo=()=>{
+  dispatch(SetSelectedVideoCategories([]))
+  Navigation.goBack()
 }
+
+// const onSubmit=(data)=>{
+//   const {hour,min, sec }=data
+//   dispatch(UpdateCurrentVideo({
+//     timeCode:[
+//       hour===''? 0 : parseInt(hour),
+//       min===''? 0 : parseInt(min),
+//       sec===''? 0 : parseInt(sec)
+//     ]
+//   }
+//   ))
+// handleIndexForm(1)
+// }
   return (
    
     <View style={styles.container}>
@@ -92,8 +140,8 @@ numberOfLines = {4}
   
   <TextInput
   style={styles.textInput}
-  onChangeText={onChangeText}
-  value={text}
+  onChangeText={onChangeTitle}
+  value={Title}
 />
   </View>
 
@@ -104,12 +152,20 @@ numberOfLines = {4}
   </Text>
   <TextInput
   style={styles.textInputEpisodes}
-  onChangeText={onChangeText}
-  value={text}
+  onChangeText={onChangeNumEpisodes}
+  value={NumEpisodes}
+  keyboardType="numeric"
 />
   </View>
+<TouchableOpacity style={styles.BlackButton} onPress={OpenPopup} >
+  <Text style={{...styles.inputTitle, padding:20}}>{SelectStatusWatching}</Text>
+</TouchableOpacity>
 
-  <Pressable onPress={onSelectCategories} style={styles.selectSectionBTN}>
+<ListSelectItemPopup ClickHandler={PopupHandler} 
+TextData={StatusesWatching}
+TogglePopup={TogglePopup}/>
+
+  <TouchableOpacity onPress={onSelectCategories} style={styles.selectSectionBTN}>
   <LinearGradient colors={['#FF2C7D', '#FF59AA']}
            start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={styles.gradientBlock}>
  <Text style={styles.inputTitle}>
@@ -118,11 +174,21 @@ numberOfLines = {4}
   <Image source={ArrowPNG} />
 </LinearGradient>
  
-  </Pressable>
-  <CategorySlider/>
-  <View style={styles.toggleBlock}>
+  </TouchableOpacity>
+<View style={{backgroundColor:0, marginTop:20}}>
+  {
+    SelectedSections.map((el) =>{
+      return <CategoryCard categoryData={el} 
+      isClickable={false} />
+     })
+  }
+</View>
+  
+      </ScrollView>
+
+      <View style={styles.toggleBlock}>
       
-      <Pressable onPress={GoBack} style={styles.cancelBTN}>
+      <Pressable onPress={CancelAddVideo} style={styles.cancelBTN}>
     
      <Text style={styles.cancelBTN_text}>
     Cancel
@@ -130,7 +196,7 @@ numberOfLines = {4}
      
       </Pressable>
       
-      <Pressable onPress={GoToSectionPage} style={styles.applyBTNwrapper}>
+      <Pressable onPress={AddVideo} style={styles.applyBTNwrapper}>
       <LinearGradient colors={['#FF2C7D', '#FF59AA']}
            start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={styles.applyBTN}>
      <Text style={styles.applyBTN_text}>
@@ -140,9 +206,6 @@ numberOfLines = {4}
      
       </Pressable>
          </View>
-      </ScrollView>
-
- 
 
     </View>
   );
@@ -247,6 +310,14 @@ backgroundColor: '#1D1D27',
 flexDirection: "row",
 justifyContent:'space-between',
 marginBottom:26
+        },
+        BlackButton:{
+          marginTop:20,
+          borderWidth: 1,
+          borderColor: 'rgba(255, 255, 255, 0.5)',
+          borderRadius:16,
+  backgroundColor: '#1D1D27',
+
         },
         cancelBTN:{
       

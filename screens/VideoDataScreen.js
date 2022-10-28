@@ -1,4 +1,4 @@
-import { StyleSheet, Image, ScrollView, FlatList, Pressable } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, Pressable } from 'react-native';
 import {useEffect, useState} from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux'
@@ -35,9 +35,9 @@ const onDelete=() => {
     }
 
 const UpdateTime=() => {
-  // Navigation.navigate('ChangeTime', {allData})
-  console.log("======++++")
-  // saveWatching(videos)
+  
+ Navigation.navigate('ChangeVideoScreen' )
+
 }
 
   return (
@@ -57,7 +57,7 @@ style={styles.BlackBackground} >
          <Pressable onPress={onDelete} style={styles.btnGray}>
          <Image source={ArrowLeft} />
            </Pressable>
-           <Pressable onPress={UpdateTime}  style={styles.btnGray}>
+           <Pressable onPress={()=>{}}  style={styles.btnGray}>
            <Image source={EditIcon} />
      </Pressable>
              </View>
@@ -75,7 +75,7 @@ style={styles.BlackBackground} >
              </View>
            
              <View style={styles.timeContainer}>
-{timeCode[0]!==0 ?
+
              <View style={styles.hourContainer}>
              <Text style={styles.timeTitle}>
            {timeCode[0]}
@@ -83,8 +83,8 @@ style={styles.BlackBackground} >
          <Text style={styles.timeSubTitle}>
            hour
          </Text>
-             </View>: null}
-             {timeCode[0]!==0 ?
+             </View>
+ 
              <View style={styles.hourContainer}>
              <Text style={styles.timeTitle}>
            :
@@ -92,7 +92,7 @@ style={styles.BlackBackground} >
          <Text style={styles.timeSubTitle}>
           
          </Text>
-             </View> : null}
+             </View>
              <View style={styles.hourContainer}>
              <Text style={styles.timeTitle}>
              {timeCode[1]}
@@ -126,7 +126,7 @@ style={styles.BlackBackground} >
   bottom: 0,
   width: '100%',
 }}>
-           <Pressable onPress={UpdateTime} style={styles.btnUpdate}>
+           <TouchableOpacity onPress={UpdateTime} style={styles.btnUpdate}>
            <LinearGradient colors={['#FF2C7D', '#FF59AA']}
            start={{x: 0, y: 0}} end={{x: 1, y: 0}}
            style={styles.btnUpdate}  >
@@ -134,7 +134,7 @@ style={styles.BlackBackground} >
 </LinearGradient>
           {/* <Text style={{  ...styles.timeTitle,  fontSize: 30,}}>Update</Text> */}
       
-           </Pressable>
+           </TouchableOpacity>
            </View>
           
     </View>

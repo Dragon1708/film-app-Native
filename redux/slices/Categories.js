@@ -19,7 +19,7 @@ export const CategoriesSlice = createSlice({
     
   },
   SetSelectedVideoCategories: (state, action) => {
-    console.log(state.selectedVideoCategories)
+    console.log(action.payload)
    return {
     ...state,
     selectedVideoCategories:action.payload
@@ -45,19 +45,20 @@ export const CategoriesSlice = createSlice({
    },
 
    CancelTempCategories: (state, action) => {
-    let returnArray = [];
-    initialState.categories.forEach((el) => {
-      if(initialState.selectedVideoCategories.find((item)=> el.id ===item.id)){
-          returnArray.push(el)
+    let tempArray = [];
+    state.categories.forEach((el) => {
+      if(!state.tempCategories.find((item)=> el.id ===item.id)){
+        tempArray.push(el)
       }
   
     })
     state.tempCategories=[]
-    console.log(state)
+    state.categories=tempArray
+
  },
   },
 })
 
-export const {SetCategories, AddTempCategories, ApplyTempCategories,SetSelectedVideoCategories } = CategoriesSlice.actions
+export const {SetCategories, AddTempCategories,ApplyTempCategories, CancelTempCategories,SetSelectedVideoCategories } = CategoriesSlice.actions
 
 export default CategoriesSlice.reducer

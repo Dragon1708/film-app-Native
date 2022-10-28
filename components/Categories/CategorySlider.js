@@ -4,7 +4,7 @@ import { StyleSheet, Image,ScrollView, Text, View, Pressable  } from 'react-nati
 import {LinearGradient} from 'expo-linear-gradient'
 
 
-import MiniCategoryCard from './MiniCategoryCard';
+import MiniCategoryCard from './CategoryCard';
 
 
 const CategorySlider=()=>{

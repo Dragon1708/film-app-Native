@@ -1,17 +1,19 @@
-import { StyleSheet, Image, ScrollView, TextInput, Pressable } from 'react-native';
+import { StyleSheet, TouchableOpacity, ScrollView, TextInput, Pressable } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient'
 import BottomSheet, {BottomSheetView  } from "@gorhom/bottom-sheet";
 
 import React, {useRef} from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux'
-import { AddTempCategories, SetSelectedVideoCategories} from '../../redux/slices/Categories'
+import { AddTempCategories, SetSelectedVideoCategories, 
+  CancelTempCategories,
+  ApplyTempCategories} from '../../redux/slices/Categories'
 
 import { Text, View } from '../../components/Themed';
 
 
 
-import MiniCategoryCard from "../../components/Categories/MiniCategoryCard";
+import CategoryCard from "../../components/Categories/CategoryCard";
 //import SearchIcon from '../../assets/icons/SearchIcon'
 
 
@@ -20,7 +22,7 @@ export default function SelectSectionPage({ navigation }) {
   const sections =useSelector(state=>state.CategoriesReducer.categories).slice(1)
 
 
-  const [SelectedSections, SetSelectedSections] = React.useState([]);
+  const [SelectedSections, SetSelectedSections] = React.useState(useSelector(state=>state.CategoriesReducer.selectedVideoCategories));
 
   const dispatch=useDispatch()
   const collumns = 2; //размер подмассива
@@ -32,6 +34,7 @@ const Navigation=useNavigation()
 
 const sheetRef = React.createRef(null);
 const [isOpen, SetIsOpen] = React.useState(false);
+
 
 const snapPoints = [ "40%"];
 
@@ -58,14 +61,24 @@ const ShowBottomSheet = ()=>{
 
 const SelectCategory=(category)=>{
 SetSelectedSections([...SelectedSections, category])
-dispatch(SetSelectedVideoCategories(SelectedSections))
+console.log(SelectedSections)
+dispatch(SetSelectedVideoCategories([...SelectedSections, category]))
 }
 const unSelectCategory=(category)=>{
 SetSelectedSections(SelectedSections.filter(item => item.id !== category.id))
-dispatch(SetSelectedVideoCategories(SelectedSections))
+dispatch(SetSelectedVideoCategories(SelectedSections.filter(item => item.id !== category.id)))
 }
 
 const CancelSelectCategory=()=>{
+  dispatch(CancelTempCategories())
+  dispatch(SetSelectedVideoCategories([]))
+  Navigation.goBack()
+  
+}
+
+const ApplySelectCategory=()=>{
+  dispatch(ApplyTempCategories())
+  Navigation.goBack()
   
 }
 
@@ -78,11 +91,11 @@ const CancelSelectCategory=()=>{
         </Text>
       
           {/* <SearchIcon style={styles.searchIcon} width={28} height={28}/> */}
-        <Pressable style={styles.addCategory} onPress={ShowBottomSheet}>
+        <TouchableOpacity style={styles.addCategory} onPress={ShowBottomSheet}>
            <Text style={styles.regularText}>
         Add  Categories
         </Text>
-        </Pressable>
+        </TouchableOpacity>
 
 <ScrollView >
   
@@ -93,9 +106,10 @@ return (
 <View style={{flex: 1, backgroundColor: 0, marginRight:10}}>
   {
     collumns.map((el) =>{
-     return <MiniCategoryCard categoryData={el} 
+     return <CategoryCard categoryData={el} 
      SelectedCategory={SelectCategory}
-     unSelectCategory={unSelectCategory} />
+     unSelectCategory={unSelectCategory}
+     isSelected={SelectedSections.find(item => item.id===el.id)? true: false} />
     })
   }
   </View>)
@@ -113,7 +127,7 @@ return (
    Cancel
         </Text>
 </Pressable>
-<Pressable onPress={AddCategory} style={styles.apply__btn}>
+<Pressable onPress={ApplySelectCategory} style={styles.apply__btn}>
 <LinearGradient colors={['#FF2C7D', '#FF59AA']}
         start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={{  borderRadius:16,}}>
 <Text style={{...styles.title,marginTop: 0,   marginBottom:0, padding:20}}>
@@ -125,7 +139,9 @@ return (
       </View>
       <BottomSheet ref={sheetRef} snapPoints={snapPoints} 
 onClose={()=>SetIsOpen(false)}
-enablePanDownToClose={true} > 
+enablePanDownToClose={true} 
+index={-1}
+> 
   <BottomSheetView style={{backgroundColor:"#1D1D27", height: "100%",  flex:1,   }}>
   <Text style={styles.inputLabel}>
   Select section

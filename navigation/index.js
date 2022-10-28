@@ -14,6 +14,7 @@ import LinkingConfiguration from "./LinkingConfiguration";
 import VideoDataScreen from "../screens/VideoDataScreen";
 import InitVideoDataScreen from "../screens/AddVideo/InitVideoDataScreen";
 import SelectCategoryPage from "../screens/AddVideo/SelectCategoryPage";
+import ChangeVideoScreen from "../screens/ChangeVideo/ChangeVideoScreen";
 
 export default function Navigation({ colorScheme }) {
   return (
@@ -37,6 +38,7 @@ function RootNavigator() {
       <Stack.Screen name="VideoDataScreen" component={VideoDataScreen} />
       <Stack.Screen name="InitVideoDataScreen" component={InitVideoDataScreen} />
       <Stack.Screen name="SelectCategoryPage" component={SelectCategoryPage} />
+      <Stack.Screen name="ChangeVideoScreen" component={ChangeVideoScreen} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}

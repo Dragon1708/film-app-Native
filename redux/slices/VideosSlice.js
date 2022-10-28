@@ -4,6 +4,8 @@ const initialState = {
  watching:[],
  bookmark:[],
  viewed:[],
+ statuses:['Watching','Bookmark', 'Viewed'],
+ counters:[0,0,0],
  currentVideo:{},
 }
 
@@ -34,10 +36,26 @@ UpdateCurrentVideo: (state, action) => {
 },
     SetWatching: (state, action) => {
         state.watching=action.payload
+       
     },
-    AddWatching: (state, action) => {
-      state.watching.push(action.payload)
+    AddVideoToWatching: (state, action) => {
+  return{
+    ...state,
+    watching:[...state.watching, {...action.payload, id:(state.watching.length+1).toString()}]
+  }
   },
+  AddVideoToBookmark: (state, action) => {
+    return{
+      ...state,
+      bookmark:[...state.bookmark, {...action.payload, id:(state.bookmark.length+1).toString()}]
+    }
+    },
+    AddVideoToViewed: (state, action) => {
+      return{
+        ...state,
+        viewed:[...state.viewed, {...action.payload, id:(state.viewed.length+1).toString()}]
+      }
+      },
     SetBookmark: (state, action) => {
       state.bookmark=action.payload
   },
@@ -48,6 +66,11 @@ UpdateCurrentVideo: (state, action) => {
 })
 
 export const {SetCurrentVideo, SetWatching, 
-  SetBookmark, SetViewed, AddWatching, UpdateCurrentVideo } = VideosSlice.actions
+  SetBookmark, 
+  SetViewed, 
+  AddVideoToWatching,
+  AddVideoToBookmark,
+  AddVideoToViewed,
+   UpdateCurrentVideo } = VideosSlice.actions
 
 export default VideosSlice.reducer

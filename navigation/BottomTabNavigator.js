@@ -11,7 +11,7 @@ import Colors from "../constants/Colors";
 import HomeScreen from "../screens/HomeScreen";
 import Bookmark from "../screens/Bookmark";
 import Watched from "../screens/Watched";
-import AddVideoPage1 from "../screens/AddVideo/AddVideoPage1";
+import AddVideoSearch from "../screens/AddVideo/AddVideoSearch";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -106,7 +106,7 @@ function CreateVideoNavigator() {
     <CreateVideoStack.Navigator>
       <CreateVideoStack.Screen
         name="CreateVideoStack"
-        component={AddVideoPage1}
+        component={AddVideoSearch}
         options={{ headerTitle: "AddVideoPage1" }}
       />
     </CreateVideoStack.Navigator>

@@ -17,22 +17,47 @@ export const VideosSlice = createSlice({
       state.currentVideo=action.payload
    
   },
-  UpdateTimeVideo: (state, action) => {
-    state.currentVideo.timeCode=[
-      action.payload[0]===''? 0 : parseInt(action.payload[0]),
-      action.payload[1]===''? 0 : parseInt(action.payload[1]),
-      action.payload[2]===''? 0 : parseInt(action.payload[2])
-    ]
-},
-UpdateCurrentVideo: (state, action) => {
-  console.log({
-    ...state.currentVideo,
-    ... action.payload
-  }, "State")
-  state.currentVideo={
-    ...state.currentVideo,
-    ... action.payload
+
+UpdateWatchingVideo: (state, action) => {
+  //  state.watching.splice(state.watching.findIndex((el)=>el.id===action.payload.id), 1)
+const newWatching=state.watching.filter((el)=>el.id!==action.payload.id)
+  return {
+    ...state,
+    watching:[...newWatching,
+      action.payload]
+    
   }
+},
+DeleteVideo: (state, action) => {
+  //  state.watching.splice(state.watching.findIndex((el)=>el.id===action.payload.id), 1)
+
+ const temp2={watching: temp}
+// initialState.watching.splice(1)
+// console.log(temp.id, initialState.watching)
+// console.log( initialState.watching.findIndex((el)=>el.id===temp.id))
+
+
+console.log(Object.keys(initialState))
+console.log(Object.keys(temp2)[0])
+
+switch (Object.keys(temp2)[0]) {
+        case Object.keys(initialState)[0]:
+          const arr=[
+            temp2.watching,
+            ...initialState.watching
+            ]
+          break;
+          case Object.keys(initialState)[1]:
+            // dispatch(AddVideoToBookmark(NewVideo))
+        
+            break;
+            case Object.keys(initialState)[2]:
+              // dispatch(AddVideoToViewed(NewVideo))
+              break;
+      
+        default:
+          break;
+}
 },
     SetWatching: (state, action) => {
         state.watching=action.payload
@@ -71,6 +96,6 @@ export const {SetCurrentVideo, SetWatching,
   AddVideoToWatching,
   AddVideoToBookmark,
   AddVideoToViewed,
-   UpdateCurrentVideo } = VideosSlice.actions
+  UpdateWatchingVideo } = VideosSlice.actions
 
 export default VideosSlice.reducer

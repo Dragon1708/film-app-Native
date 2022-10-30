@@ -15,6 +15,7 @@ import AddBookmark from '../../../assets/icons/NoneBookMark.svg'
 
 
 const cardVideo=({data, isTimeCode=false, isBookmark=false, isViewed=false})=>{
+
 const  {imgURL, title, timeCode, currentEpisode}=data
 //const [videoData, setVideoData]= useState( data)
 const dispatch=useDispatch()

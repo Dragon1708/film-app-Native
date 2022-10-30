@@ -10,6 +10,7 @@ import CardVideo from './VideoCard/CardVideo';
 const SectionGroup=({title, videos,  isTimeCode=false,  isBookmark=false, isViewed=false})=>{
   //  const  {imgURL, title, currentEpisode, timeCode, maxEpisodes}=data
  // const [data, setData]= useState(VideoData )
+ const reverceVideos=videos.reverse()
   const onSeeAll=()=>{
  //   setData(VideoData)
  
@@ -49,7 +50,7 @@ renderItem={({item})=>{
 </ScrollView> */}
      <ScrollView  horizontal={true}>
 {
-  videos.map((el)=>{
+  reverceVideos.map((el)=>{
 return  <CardVideo 
 key={el.id} 
 data={el}  

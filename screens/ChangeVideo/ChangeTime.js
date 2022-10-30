@@ -5,31 +5,29 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import {LinearGradient} from 'expo-linear-gradient'
 
+import NumberButtonInput from "../../components/NumberButtonInput";
 
-export default function ChangeTime() {
+
+export default function ChangeTime({TimeCode, SetNewTimeCode}) {
  //   consoleconst JsonAPI='https://nodal-linker-349809-default-rtdb.europe-west1.firebasedatabase.app/bookmark.json'
- const route=useRoute()
-const data=route.params.allData
+
+
 const Navigation=useNavigation()
 
-const [hour, setHour] = useState('0');
-const [minute, setMinute] = useState();
-const [seconds, setSeconds] = useState('0');
+
 
 const onChangeHour=(value) => {
-  setHour(value)
+  // TimeCode[0]=value
+  SetNewTimeCode([value, TimeCode[1],TimeCode[2] ])
 }
 const onChangeMin=(value) => {
-  setMinute(value)
+  SetNewTimeCode([TimeCode[0], value,TimeCode[2] ])
 }
 const onChangeSec=(value) => {
-  setSeconds(value)
+  SetNewTimeCode([TimeCode[0],TimeCode[1],value])
   //console.log(DB)
   }
-const onContinue=() => {
-  const newTime=[parseInt(hour) , parseInt(minute), parseInt(seconds) ]
-  Navigation.navigate('ChangeEpisode', {data, newTime})
-}
+
 
   return (
    
@@ -39,40 +37,26 @@ const onContinue=() => {
       Where did you stay?
       </Text>
      <View style={styles.inputsContainer}>
-     <TextInput
-  style={styles.textInputTime}
-  onChangeText={onChangeHour}
-  value={hour}
-  keyboardType={'numeric'}
-  placeholder={data.timeCode[0].toString()}
-/>
+     <NumberButtonInput ClickHandler={onChangeHour}
+     
+ startNumber={TimeCode[0]}
+ />
 <Text style={styles.title}>
       :
       </Text>
-<TextInput
-  style={styles.textInputTime}
-  onChangeText={onChangeMin}
-  keyboardType={'numeric'}
-  value={minute}
-  placeholder={data.timeCode[1].toString()}
-/>
+      <NumberButtonInput ClickHandler={onChangeMin}
+      maxValue={60}
+ startNumber={TimeCode[1]}
+ />
 <Text style={styles.title}>
       :
       </Text>
-<TextInput
-  style={styles.textInputTime}
-  onChangeText={onChangeSec}
-  keyboardType={'numeric'}
-  value={seconds}
-  placeholder={data.timeCode[2].toString()}
-/>
+      <NumberButtonInput ClickHandler={onChangeSec}
+           maxValue={60}
+ startNumber={TimeCode[2]}
+ />
      </View>
-     <Pressable onPress={onContinue} >
-           <LinearGradient colors={[ '#FD7461', '#BA4274']} start={[0,1]}
-end={[1,0]} style={styles.btnNext}>
-          <Text style={styles.title}>Next</Text>
-</LinearGradient>
-           </Pressable>
+  
         </View>
   
     </View>
@@ -82,8 +66,7 @@ end={[1,0]} style={styles.btnNext}>
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-  height:'100%',
-    backgroundColor: '#1D1D27'
+    backgroundColor: '#01080D'
   },
   wrapper:{
 alignItems:'center',

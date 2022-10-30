@@ -3,8 +3,7 @@ import { StyleSheet,
   ScrollView, 
   TextInput,
   Pressable,
-   TouchableOpacity,
-  Modal } from 'react-native';
+   TouchableOpacity } from 'react-native';
 import {useEffect, useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux'

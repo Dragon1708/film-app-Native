@@ -93,7 +93,7 @@ function BookmarkNavigator() {
       <BookmarkStack.Screen
         name="Bookmark"
         component={Bookmark}
-        options={{ headerTitle: "Tab Two Title" }}
+        options={{ headerShown: false}}
       />
     </BookmarkStack.Navigator>
   );

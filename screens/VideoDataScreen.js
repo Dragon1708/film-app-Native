@@ -1,7 +1,8 @@
 import { StyleSheet, Image, TouchableOpacity, Pressable } from 'react-native';
-import {useEffect, useState} from 'react'
+import {createRef, useState} from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux'
+import BottomSheet, {BottomSheetView  } from "@gorhom/bottom-sheet";
 import { Text, View } from '../components/Themed';
 import {LinearGradient} from 'expo-linear-gradient';
 
@@ -9,7 +10,8 @@ import {saveWatching,loadWatching  } from "../components/SaveLoadData";
 
 import ArrowLeft from "../assets/icons/png/arrow-leftPNG.png";
 import EditIcon from "../assets/icons/png/edit-05PNG.png";
-
+import ListSelectItemPopup from "../components/ListSelectItemPopup";
+import ConfirmPopup from "../components/ConfirmPopup";
 
 
 
@@ -17,32 +19,68 @@ export default function VideoDataScreen() {
  //   consoleconst JsonAPI='https://nodal-linker-349809-default-rtdb.europe-west1.firebasedatabase.app/bookmark.json'
 // const route=useRoute()
 const Navigation=useNavigation()
+const StatusesWatching =useSelector(state=>state.VideosReducer.statuses)
 // const {id, imgURL, title, timeCode}=route.params.data
+const [isOpen, SetIsOpen] = useState(false);
+const [SelectStatusWatching, SetSelectStatusWatching] = useState(StatusesWatching[0]);
+const   TogglePopup= useState(false )
 const {id, imgURL, title, timeCode, currentEpisode}=useSelector(state=>state.VideosReducer.currentVideo)
 const videos =useSelector(state=>state.VideosReducer.watching)
-// const allData=route.params.data
-// console.log(id)
-const onDelete=() => {
+const sheetRef = createRef(null);
+const snapPoints = [ "40%"];
+
+const onChange=() => {
   // loadData().then(function (data) {
   //   let NewData=data
   //   NewData.timeCodes.splice(NewData.timeCodes.findIndex(item => item.id ===id), 1)
   // saveData(NewData)
-  loadWatching().then(function (data) {
-    console.log(data[1])
-  })
-
+  
+  ShowBottomSheet()
     // Navigation.navigate('HomeScreen')
     }
 
+const PopupHandler=(SelectedItem)=>{
+      SetSelectStatusWatching(SelectedItem)
+      console.log("Selee")
+      // сделать добавление в категорию
+      switch (SelectStatusWatching) {
+        case StatusesWatching[0]:
+          // dispatch(AddVideoToWatching(NewVideo))
+          break;
+          case StatusesWatching[1]:
+            // dispatch(AddVideoToBookmark(NewVideo))
+        
+            break;
+            case StatusesWatching[2]:
+              // dispatch(AddVideoToViewed(NewVideo))
+              break;
+      
+        default:
+          break;
+      }
+    }
+const OpenPopup=()=>{
+      TogglePopup[1](true)
+ }
+ const ShowBottomSheet = ()=>{
+      if (isOpen) {
+        sheetRef.current?.close()
+      } else {
+        sheetRef.current?.snapToIndex(0)
+        SetIsOpen(true)
+      }
+    
+    }
 const UpdateTime=() => {
   
- Navigation.navigate('ChangeVideoScreen' )
+ Navigation.navigate('UpdateVideoScreen' )
 
 }
 
   return (
    
     <View style={styles.container}>
+      
     <Image 
          source={{uri: imgURL!=='' ? imgURL : 'https://images.genius.com/af1e9db30786db68b4a8698a9536a4a8.999x999x1.jpg'
          }} style={styles.image} />
@@ -53,11 +91,12 @@ const UpdateTime=() => {
 style={styles.BlackBackground} >
 
 </LinearGradient>
+
          <View style={styles.toggleContainer}>
-         <Pressable onPress={onDelete} style={styles.btnGray}>
+         <Pressable onPress={()=>  Navigation.goBack()} style={styles.btnGray}>
          <Image source={ArrowLeft} />
            </Pressable>
-           <Pressable onPress={()=>{}}  style={styles.btnGray}>
+           <Pressable onPress={ShowBottomSheet}  style={styles.btnGray}>
            <Image source={EditIcon} />
      </Pressable>
              </View>
@@ -136,7 +175,40 @@ style={styles.BlackBackground} >
       
            </TouchableOpacity>
            </View>
-          
+
+           <BottomSheet ref={sheetRef} snapPoints={snapPoints} 
+onClose={()=>SetIsOpen(false)}
+enablePanDownToClose={true} 
+index={-1}
+> 
+  <BottomSheetView style={{backgroundColor:"#1D1D27", height: "100%",  flex:1,   }}>
+  <Text style={styles.inputLabel}>
+  Select section
+  </Text>
+  <TouchableOpacity style={styles.BlackButton} onPress={OpenPopup} >
+  <Text style={{...styles.epsText, padding:20, fontSize:20}}>{SelectStatusWatching}</Text>
+</TouchableOpacity>
+  <ListSelectItemPopup ClickHandler={PopupHandler} 
+TextData={StatusesWatching}
+TogglePopup={TogglePopup}/>
+      <View style={{alignItems: 'center',width:"100%",  
+       position: 'absolute', 
+       bottom: 20,
+       backgroundColor:0,
+       }}>
+        
+      <Pressable onPress={()=>{}} style={styles.BottomSheet__btn}>
+<LinearGradient colors={['#FF2C7D', '#FF59AA']}
+        start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={{  borderRadius:16,}}>
+<Text style={{...styles.title,marginTop: 0,   textAlign: 'center',  marginBottom:0, padding:20}}>
+      Delete
+        </Text>
+        </LinearGradient>
+</Pressable>
+      </View>
+   
+  </BottomSheetView>
+</BottomSheet>
     </View>
   );
 }
@@ -198,6 +270,14 @@ BlackBackground:{
   bottom: 0,
   height: 400,
   width:'100%',
+},
+BlackButton:{
+  marginTop:20,
+  borderWidth: 1,
+  borderColor: 'rgba(255, 255, 255, 0.5)',
+  borderRadius:16,
+backgroundColor: '#1D1D27',
+
 },
         timeContainer:{
           paddingLeft:10,

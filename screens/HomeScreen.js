@@ -1,7 +1,7 @@
 import { StyleSheet, Image, ScrollView, FlatList, Pressable } from "react-native";
 import React from 'react';
 
-import EditScreenInfo from "../components/EditScreenInfo";
+import {loadWatching  } from "../components/SaveLoadData";
 import { Text, View } from "../components/Themed";
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
@@ -15,25 +15,27 @@ import BannerSection from '../components/filmComp/BannerSection';
 export default function TabOneScreen() {
 
 //  const [sections, SetSections]=React.useState(useSelector(state=>state.CategoriesReducer))
-// const [videos, SetVideos]=React.useState(useSelector(state=>state.VideosReducer.watching))
+ const [sectionsFiltered, SetSectionsFiltered]=React.useState([])
 
 const videos =useSelector(state=>state.VideosReducer.watching)
+// const sections =useSelector(state=>state.CategoriesReducer.categories).slice(1)
 const sections =useSelector(state=>state.CategoriesReducer.categories)
-
-
+// console.log(videos.filter(index=>index.categoriesID.includes(sections[1].id) ))
   const dispatch=useDispatch()
 const api='https://62fa78e23c4f110faa9a0471.mockapi.io/'
 
  React.useEffect(() => {
   console.log( "e===============")
+  loadWatching().then(res=>{
+    console.log(res.watching[0].title)
+   dispatch(SetWatching(res.watching))
+  //  SetSectionsFiltered(sectionsFilter(res.watching))
+  })
 
-  axios.get(api+'watch').then(res=>{
-
-// dispatch(SetWatching(res.data[0].watch))
-dispatch(SetWatching(res.data))
-
-}
-)
+  // axios.get(api+'watch').then(res=>{
+  //    dispatch(SetWatching(res.data))
+  //   console.log(res.data[0].title)
+  //   })
 axios.get(api+'bookmark').then(res=>{
   dispatch(SetBookmark(res.data))
   }
@@ -50,7 +52,9 @@ axios.get(api+'categories').then(res=>{
   }, []);
 
   // сделать чтобы в сектион груп грузилось только макс 5видео
-
+const sectionsFilter=sections.filter((el)=>{
+ return videos.filter(index=>index.categoriesID?.includes(el.id)).length !== 0;
+})
 
   return (
     <View style={styles.container}>
@@ -66,12 +70,15 @@ axios.get(api+'categories').then(res=>{
     
 
         <FlatList
-data={sections}
+data={sectionsFilter}
 renderItem={({item})=> <SectionGroup 
 title={item.title} 
 isTimeCode
 // VideoData={data.timeCodes.filter(el=> el.sectionID ==item.id)} 
-videos={videos.filter(index=>index.categoriesID.includes(item.id) )}
+// videos.filter(index=>index.categoriesID.includes(item.id) )
+videos={videos.filter(index=>{
+  // console.log(index.title, '==',item.id)
+return  index.categoriesID?.includes(item.id)} )}
 
 />}
 />

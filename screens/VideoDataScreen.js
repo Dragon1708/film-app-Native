@@ -6,7 +6,7 @@ import BottomSheet, {BottomSheetView  } from "@gorhom/bottom-sheet";
 import { Text, View } from '../components/Themed';
 import {LinearGradient} from 'expo-linear-gradient';
 
-import {saveWatching,loadWatching  } from "../components/SaveLoadData";
+import {DeleteVideo } from "../redux/slices/VideosSlice";
 
 import ArrowLeft from "../assets/icons/png/arrow-leftPNG.png";
 import EditIcon from "../assets/icons/png/edit-05PNG.png";
@@ -17,15 +17,18 @@ import ConfirmPopup from "../components/ConfirmPopup";
 
 export default function VideoDataScreen() {
  //   consoleconst JsonAPI='https://nodal-linker-349809-default-rtdb.europe-west1.firebasedatabase.app/bookmark.json'
-// const route=useRoute()
+
 const Navigation=useNavigation()
+const dispatch=useDispatch()
 const StatusesWatching =useSelector(state=>state.VideosReducer.statuses)
 // const {id, imgURL, title, timeCode}=route.params.data
 const [isOpen, SetIsOpen] = useState(false);
 const [SelectStatusWatching, SetSelectStatusWatching] = useState(StatusesWatching[0]);
 const   TogglePopup= useState(false )
-const {id, imgURL, title, timeCode, currentEpisode}=useSelector(state=>state.VideosReducer.currentVideo)
-const videos =useSelector(state=>state.VideosReducer.watching)
+const   ToggleConfirmPopup= useState(false )
+const currentVideo=useSelector(state=>state.VideosReducer.currentVideo)
+const { imgURL, title, timeCode, currentEpisode}=currentVideo
+
 const sheetRef = createRef(null);
 const snapPoints = [ "40%"];
 
@@ -38,6 +41,10 @@ const onChange=() => {
   ShowBottomSheet()
     // Navigation.navigate('HomeScreen')
     }
+
+const DeleteVideoHandle=() => {
+  ToggleConfirmPopup[1](true)
+}
 
 const PopupHandler=(SelectedItem)=>{
       SetSelectStatusWatching(SelectedItem)
@@ -62,6 +69,17 @@ const PopupHandler=(SelectedItem)=>{
 const OpenPopup=()=>{
       TogglePopup[1](true)
  }
+ const PopupConfirmDelete=(result)=>{
+  const DeletedVideo={
+    watching:currentVideo
+  }
+if (result) {
+  dispatch(DeleteVideo(DeletedVideo))
+  Navigation.navigate('Home')
+}
+}
+
+
  const ShowBottomSheet = ()=>{
       if (isOpen) {
         sheetRef.current?.close()
@@ -196,15 +214,16 @@ TogglePopup={TogglePopup}/>
        bottom: 20,
        backgroundColor:0,
        }}>
-        
-      <Pressable onPress={()=>{}} style={styles.BottomSheet__btn}>
+      <ConfirmPopup ClickHandler={PopupConfirmDelete} TogglePopup={ToggleConfirmPopup}/>
+    
+      <TouchableOpacity onPress={DeleteVideoHandle} style={styles.BottomSheet__btn}>
 <LinearGradient colors={['#FF2C7D', '#FF59AA']}
         start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={{  borderRadius:16,}}>
 <Text style={{...styles.title,marginTop: 0,   textAlign: 'center',  marginBottom:0, padding:20}}>
       Delete
         </Text>
         </LinearGradient>
-</Pressable>
+</TouchableOpacity>
       </View>
    
   </BottomSheetView>

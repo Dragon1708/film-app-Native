@@ -7,7 +7,7 @@ import { useState} from 'react'
 import CardVideo from './VideoCard/CardVideo';
 
 
-const SectionGroup=({title, videos,  isTimeCode=false,  isBookmark=false, isViewed=false})=>{
+const SectionGroup=({title, videos=[],  isTimeCode=false,  isBookmark=false, isViewed=false})=>{
   //  const  {imgURL, title, currentEpisode, timeCode, maxEpisodes}=data
  // const [data, setData]= useState(VideoData )
  const reverceVideos=videos.reverse()

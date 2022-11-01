@@ -11,6 +11,7 @@ import Colors from "../constants/Colors";
 import HomeScreen from "../screens/HomeScreen";
 import Bookmark from "../screens/Bookmark";
 import Watched from "../screens/Watched";
+import UserDashboard from "../screens/UserDashboard";
 import AddVideoSearch from "../screens/AddVideo/AddVideoSearch";
 
 const BottomTab = createBottomTabNavigator();
@@ -53,6 +54,15 @@ export default function BottomTabNavigator() {
         <BottomTab.Screen
         name="Watched"
         component={WatchedNavigator}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="ios-code" color={color} />
+          ),
+        }}
+      />
+        <BottomTab.Screen
+        name="UserDashboard"
+        component={UserDashboardNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-code" color={color} />
@@ -124,5 +134,19 @@ function WatchedNavigator() {
         options={{ headerTitle: "Tab Two Title" }}
       />
     </WatchedStack.Navigator>
+  );
+}
+
+const UserDashboardStack = createStackNavigator();
+
+function UserDashboardNavigator() {
+  return (
+    <UserDashboardStack.Navigator>
+      <UserDashboardStack.Screen
+        name="UserDashboardStack"
+        component={UserDashboard}
+        options={{ headerShown: false }}
+      />
+    </UserDashboardStack.Navigator>
   );
 }

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import {saveWatching  } from "../../components/SaveLoadData";
 
 const initialState = {
  watching:[],
@@ -8,6 +9,7 @@ const initialState = {
  counters:[0,0,0],
  currentVideo:{},
 }
+const sections=['watching','bookmark','viewed' ]
 
 export const VideosSlice = createSlice({
   name: 'Videos',
@@ -30,29 +32,37 @@ const newWatching=state.watching.filter((el)=>el.id!==action.payload.id)
 },
 DeleteVideo: (state, action) => {
   //  state.watching.splice(state.watching.findIndex((el)=>el.id===action.payload.id), 1)
+  console.log(Object.keys(state))
+//   Object.keys(state).forEach((el)=>{
+// if (condition) {
+  
+// }
+//   })
 
- const temp2={watching: temp}
-// initialState.watching.splice(1)
-// console.log(temp.id, initialState.watching)
-// console.log( initialState.watching.findIndex((el)=>el.id===temp.id))
-
-
-console.log(Object.keys(initialState))
-console.log(Object.keys(temp2)[0])
-
-switch (Object.keys(temp2)[0]) {
-        case Object.keys(initialState)[0]:
-          const arr=[
-            temp2.watching,
-            ...initialState.watching
-            ]
+switch (Object.keys(action.payload)[0]) {
+        case sections[0]:
+          console.log(action.payload)
+          saveWatching({
+            ...state,
+            watching:[...state.watching, {...action.payload, id:(state.watching.length+1).toString()}]
+          })
+          return {
+            ...state,
+            watching:[...state.watching.filter((el)=>el.id!==action.payload.watching.id)]
+          }
           break;
-          case Object.keys(initialState)[1]:
-            // dispatch(AddVideoToBookmark(NewVideo))
+          case sections[1]:
+            return {
+              ...state,
+              bookmark:[...state.bookmark.filter((el)=>el.id!==action.payload.bookmark.id)]
+            }
         
             break;
-            case Object.keys(initialState)[2]:
-              // dispatch(AddVideoToViewed(NewVideo))
+            case sections[2]:
+              return {
+                ...state,
+                viewed:[...state.viewed.filter((el)=>el.id!==action.payload.viewed.id)]
+              }
               break;
       
         default:
@@ -64,6 +74,10 @@ switch (Object.keys(temp2)[0]) {
        
     },
     AddVideoToWatching: (state, action) => {
+      saveWatching({
+        ...state,
+        watching:[...state.watching, {...action.payload, id:(state.watching.length+1).toString()}]
+      })
   return{
     ...state,
     watching:[...state.watching, {...action.payload, id:(state.watching.length+1).toString()}]
@@ -75,7 +89,7 @@ switch (Object.keys(temp2)[0]) {
       bookmark:[...state.bookmark, {...action.payload, id:(state.bookmark.length+1).toString()}]
     }
     },
-    AddVideoToViewed: (state, action) => {
+AddVideoToViewed: (state, action) => {
       return{
         ...state,
         viewed:[...state.viewed, {...action.payload, id:(state.viewed.length+1).toString()}]
@@ -93,6 +107,7 @@ switch (Object.keys(temp2)[0]) {
 export const {SetCurrentVideo, SetWatching, 
   SetBookmark, 
   SetViewed, 
+  DeleteVideo,
   AddVideoToWatching,
   AddVideoToBookmark,
   AddVideoToViewed,

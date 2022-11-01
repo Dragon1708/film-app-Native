@@ -4,15 +4,15 @@ import { useState} from 'react'
 //import LinearGradient from 'react-native-linear-gradient';
 
 
-const ConfirmPopup=({ClickHandler})=>{
+const ConfirmPopup=({ClickHandler, TogglePopup})=>{
 
-
-  const onApply= (selectItem)=>{
+  const onApply= ()=>{
     ClickHandler(true)
+    TogglePopup[1](false)
   }
   const onCancel= ()=>{
     ClickHandler(false)
-
+    TogglePopup[1](false)
   }
 
     return (

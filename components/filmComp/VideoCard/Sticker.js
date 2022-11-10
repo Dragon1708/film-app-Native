@@ -11,9 +11,11 @@ const Sticker=({timeCode, currentEpisode})=>{
 //const [videoData, setVideoData]= useState( data)
 
     return (
-     <View style={{borderRadius: 6,
-      backgroundColor: "#61dafb",
-      marginBottom:6
+     <View style={{   borderBottomLeftRadius:12,
+      borderTopLeftRadius: 12,
+      backgroundColor: "#1D1D27",
+      marginBottom:6,
+     Left: -20
       }}>
    
    { timeCode ?
@@ -50,7 +52,7 @@ const styles = StyleSheet.create(
     text: {
    
       fontSize: 20,
-  
+      padding:4,
       color: 'white'
     },
     image: {
@@ -61,10 +63,9 @@ const styles = StyleSheet.create(
       maxWidth:widhBlock,
       flexDirection: "row",
       alignItems: 'center',
-      borderBottomLeftRadius:12,
-       borderTopLeftRadius: 12,
+   
        textAlign: 'center',
-       
+     padding:4
     },
     StickedBlock:{
   

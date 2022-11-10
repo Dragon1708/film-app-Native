@@ -23,6 +23,12 @@ export const VideosSlice = createSlice({
 UpdateWatchingVideo: (state, action) => {
   //  state.watching.splice(state.watching.findIndex((el)=>el.id===action.payload.id), 1)
 const newWatching=state.watching.filter((el)=>el.id!==action.payload.id)
+saveWatching( {
+  ...state,
+  watching:[...newWatching,
+    action.payload]
+  
+})
   return {
     ...state,
     watching:[...newWatching,

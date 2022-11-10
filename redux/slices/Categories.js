@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import {saveCategories  } from "../../components/SaveLoadData";
 
 const initialState = {
   categories:[],
@@ -11,7 +12,14 @@ export const CategoriesSlice = createSlice({
   initialState,
   reducers: {
     SetCategories: (state, action) => {
-   
+      // console.log({
+      //   ...state,
+      //   categories:action.payload
+      // })
+      saveCategories({
+        ...state,
+        categories:action.payload
+      })
      return  {
       ...state,
       categories:action.payload
@@ -24,8 +32,14 @@ export const CategoriesSlice = createSlice({
     ...state,
     selectedVideoCategories:action.payload
    }
-
-   
+ },
+ deleteCategory:(state, action)=>{
+  const Category = {
+    ...state,
+    categories:state.categories.filter((el)=>el.id!==action.payload.id)
+   }
+  saveCategories(Category)
+  return Category
  },
   AddTempCategories: (state, action) => {
 
@@ -59,6 +73,10 @@ export const CategoriesSlice = createSlice({
   },
 })
 
-export const {SetCategories, AddTempCategories,ApplyTempCategories, CancelTempCategories,SetSelectedVideoCategories } = CategoriesSlice.actions
+export const {SetCategories, 
+  AddTempCategories,
+  ApplyTempCategories, CancelTempCategories,
+  SetSelectedVideoCategories,
+  deleteCategory } = CategoriesSlice.actions
 
 export default CategoriesSlice.reducer

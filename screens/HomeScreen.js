@@ -1,7 +1,7 @@
 import { StyleSheet, Image, ScrollView, FlatList, Pressable } from "react-native";
 import React from 'react';
 
-import {loadWatching  } from "../components/SaveLoadData";
+import {loadWatching, loadCategories  } from "../components/SaveLoadData";
 import { Text, View } from "../components/Themed";
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
@@ -44,11 +44,16 @@ axios.get(api+'bookmark').then(res=>{
     dispatch(SetViewed(res.data))
     }
     )
-axios.get(api+'categories').then(res=>{
+    loadCategories().then(res=>{
+      // console.log(res)
+      dispatch(SetCategories(res.categories))
+    //  SetSectionsFiltered(sectionsFilter(res.watching))
+    })
+// axios.get(api+'categories').then(res=>{
 
-  dispatch(SetCategories(res.data))
-  }
-  )
+//   dispatch(SetCategories(res.data))
+//   }
+//   )
   }, []);
 
   // сделать чтобы в сектион груп грузилось только макс 5видео
@@ -72,7 +77,7 @@ const sectionsFilter=sections.filter((el)=>{
         <FlatList
 data={sectionsFilter}
 renderItem={({item})=> <SectionGroup 
-title={item.title} 
+Category={item} 
 isTimeCode
 // VideoData={data.timeCodes.filter(el=> el.sectionID ==item.id)} 
 // videos.filter(index=>index.categoriesID.includes(item.id) )

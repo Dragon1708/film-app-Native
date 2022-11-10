@@ -1,26 +1,46 @@
 import { StyleSheet, FlatList,ScrollView, Text, View, Pressable  } from 'react-native';
 import { useState} from 'react'
 //import LinearGradient from 'react-native-linear-gradient';
+import { useDispatch, useSelector } from 'react-redux'
 
-
-
+import ConfirmPopup from "../ConfirmPopup";
 import CardVideo from './VideoCard/CardVideo';
+import {deleteCategory} from '../../redux/slices/Categories';
+import {UpdateWatchingVideo  } from "../../redux/slices/VideosSlice";
 
 
-const SectionGroup=({title, videos=[],  isTimeCode=false,  isBookmark=false, isViewed=false})=>{
+const SectionGroup=({Category, videos=[],  isTimeCode=false,  isBookmark=false, isViewed=false})=>{
   //  const  {imgURL, title, currentEpisode, timeCode, maxEpisodes}=data
  // const [data, setData]= useState(VideoData )
+ const   ToggleConfirmPopup= useState(false )
+ const dispatch=useDispatch()
  const reverceVideos=videos.reverse()
   const onSeeAll=()=>{
  //   setData(VideoData)
- 
+ ToggleConfirmPopup[1](true)
 console.log('onSeeAll')
   };
 
+// console.log(UpdatedVideo)
+    
+  const PopupConfirmDelete=(result)=>{
+  
+  if (result) {
+    dispatch(deleteCategory(Category))
+    videos.forEach((el)=>{
+      dispatch(UpdateWatchingVideo({
+        ...el,
+        categoriesID:el.categoriesID.filter((el)=>el!==Category.id)
+      }))
+    })
+    // Navigation.navigate('Home')
+  }
+  }
         return (
             <View style={styles.sectionWrapper}>
+    <ConfirmPopup ClickHandler={PopupConfirmDelete} TogglePopup={ToggleConfirmPopup}/>
          <View style={styles.titleSection}>
-         <Text style={styles.text}>{title}</Text>
+         <Text style={styles.text}>{Category.title}</Text>
          <Pressable onPress={onSeeAll} style={styles.seeAll}>
          <Text style={styles.text}>See all</Text>
          </Pressable>
